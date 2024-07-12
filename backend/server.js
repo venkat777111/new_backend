@@ -1,5 +1,4 @@
 const app = require("./app");
-const cors = require("cors");
 
 const dotenv = require("dotenv");
 const cloudinary = require("cloudinary");
@@ -24,12 +23,7 @@ cloudinary.config({
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
-const corsOptions = {
-  origin: "https://combine-8e6y.vercel.app/",
-  credentials: true,
-  optionsSuccessStatus: 200, // Some legacy browsers (IE11, various SmartTVs) choke on 204
-};
-app.use(cors(corsOptions));
+
 const server = app.listen(process.env.PORT, () => {
   console.log(`Server is working on http://localhost:${process.env.PORT}`);
 });
