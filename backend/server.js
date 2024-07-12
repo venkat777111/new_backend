@@ -25,7 +25,8 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 const corsOptions = {
-  origin: "https://combine-8e6y.vercel.app/", // Replace with your actual frontend URL
+  origin: ["https://combine-8e6y.vercel.app/", "http://localhost:4000"],
+  credentials: true, // Replace with your actual frontend URL
   optionsSuccessStatus: 200, // Some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 app.use(cors(corsOptions));
