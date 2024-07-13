@@ -6,17 +6,17 @@ const fileUpload = require("express-fileupload");
 const dotenv = require("dotenv");
 const app = express();
 const cors = require("cors");
-
 const { corsOptions } = require("./constants/config");
 
-// config
 dotenv.config({ path: "backend/config/config.env" });
 
+// config
+
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(fileUpload());
-app.use(cors(corsOptions));
 
 // Route Imports
 const product = require("./routes/productRoute");
