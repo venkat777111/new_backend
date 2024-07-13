@@ -1,5 +1,5 @@
 const express = require("express");
-const { isAuthenticatedUser, authorizedRoles } = require("../middleware/auth");
+const { authorizedRoles } = require("../middleware/auth");
 const {
   newOrder,
   getSingleOrder,
@@ -12,26 +12,22 @@ const {
 } = require("../controllers/orderController");
 const router = express.Router();
 
-router.route("/order/new").post(isAuthenticatedUser, newOrder);
+router.route("/order/new").post(newOrder);
 
-router.route("/order/:id").get(isAuthenticatedUser, getSingleOrder);
+router.route("/order/:id").get(getSingleOrder);
 
-router.route("/orders/me").get(isAuthenticatedUser, myOrders);
+router.route("/orders/me").get(myOrders);
 
-router
-  .route("/admin/orders")
-  .get(isAuthenticatedUser, authorizedRoles("admin"), getAllOrders);
-router
-  .route("/seller/orders")
-  .get(isAuthenticatedUser, authorizedRoles("seller"), getAllOrders);
+router.route("/admin/orders").get(authorizedRoles("admin"), getAllOrders);
+router.route("/seller/orders").get(authorizedRoles("seller"), getAllOrders);
 
 router
   .route("/admin/order/:id")
-  .put(isAuthenticatedUser, authorizedRoles("admin"), updateOrder)
-  .delete(isAuthenticatedUser, authorizedRoles("admin"), deleteOrder);
+  .put(authorizedRoles("admin"), updateOrder)
+  .delete(authorizedRoles("admin"), deleteOrder);
 router
   .route("/seller/order/:id")
-  .put(isAuthenticatedUser, authorizedRoles("seller"), updateSellerOrder)
-  .delete(isAuthenticatedUser, authorizedRoles("seller"), deleteOrder);
+  .put(authorizedRoles("seller"), updateSellerOrder)
+  .delete(authorizedRoles("seller"), deleteOrder);
 
 module.exports = router;
