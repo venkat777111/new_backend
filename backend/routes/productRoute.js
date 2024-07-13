@@ -16,31 +16,36 @@ const router = express.Router();
 
 router.route("/products").get(getAllProducts);
 
-router.route("/admin/products").get(authorizedRoles("admin"), getAdminProducts);
+router
+  .route("/admin/products")
+  .get(isAuthenticatedUser, authorizedRoles("admin"), getAdminProducts);
 router
   .route("/seller/products/:id")
-  .get(authorizedRoles("seller"), getSellerProducts);
+  .get(isAuthenticatedUser, authorizedRoles("seller"), getSellerProducts);
 
 router
   .route("/admin/product/new")
-  .post(authorizedRoles("admin"), createProduct);
+  .post(isAuthenticatedUser, authorizedRoles("admin"), createProduct);
 router
   .route("/seller/product/new")
-  .post(authorizedRoles("seller"), createProduct);
+  .post(isAuthenticatedUser, authorizedRoles("seller"), createProduct);
 
 router
   .route("/admin/product/:id")
-  .put(authorizedRoles("admin"), updateProduct)
-  .delete(authorizedRoles("admin"), deleteProduct);
+  .put(isAuthenticatedUser, authorizedRoles("admin"), updateProduct)
+  .delete(isAuthenticatedUser, authorizedRoles("admin"), deleteProduct);
 router
   .route("/seller/product/:id")
-  .put(authorizedRoles("seller"), updateProduct)
-  .delete(authorizedRoles("seller"), deleteProduct);
+  .put(isAuthenticatedUser, authorizedRoles("seller"), updateProduct)
+  .delete(isAuthenticatedUser, authorizedRoles("seller"), deleteProduct);
 
 router.route("/product/:id").get(getProductDetails);
 
-router.route("/review").put(createProductReview);
+router.route("/review").put(isAuthenticatedUser, createProductReview);
 
-router.route("/reviews").get(getProductReviews).delete(deleteReview);
+router
+  .route("/reviews")
+  .get(getProductReviews)
+  .delete(isAuthenticatedUser, deleteReview);
 
 module.exports = router;
